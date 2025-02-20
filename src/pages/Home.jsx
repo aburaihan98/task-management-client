@@ -2,7 +2,7 @@ import TaskManager from "./TaskManager/TaskManager";
 
 const Home = () => {
   return (
-    <div>
+    <div className="">
       <TaskManager />
     </div>
   );
