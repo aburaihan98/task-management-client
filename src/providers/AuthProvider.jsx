@@ -34,27 +34,26 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
-      const userInfo = {
-        uid: currentUser.uid,
-        displayName: currentUser?.displayName,
-        email: currentUser?.email,
-      };
+      if (currentUser) {
+        const userInfo = {
+          uid: currentUser.uid,
+          displayName: currentUser?.displayName,
+          email: currentUser?.email,
+        };
 
-      const saveUser = async () => {
-        try {
-          const res = await api.post("/user", userInfo);
-          console.log("User saved:", res.data);
-        } catch (error) {
-          console.error("Error saving user:", error);
-        }
-      };
-      saveUser();
-
+        const saveUser = async () => {
+          try {
+            await api.post("/user", userInfo);
+          } catch (error) {
+            console.error("Error saving user:", error);
+          }
+        };
+        saveUser();
+      }
       setLoading(false);
     });
-    return () => {
-      return unsubscribe();
-    };
+
+    return () => unsubscribe();
   }, []);
 
   const authInfo = {

@@ -1,7 +1,10 @@
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 
 function AddTasks() {
   const api = useAxios();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +21,8 @@ function AddTasks() {
     };
 
     const res = await api.post("/tasks", tasks);
-    console.log(res.data);
+    toast.success("Task added successfully!");
+    navigate("/");
   };
 
   return (

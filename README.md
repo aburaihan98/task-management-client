@@ -24,14 +24,14 @@ This is a Task Management Application that allows users to manage tasks by addin
 - `react-beautiful-dnd` (or any other drag-and-drop library)
 - `firebase`
 - `axios`
+- `framer-motion`
 
 ### Backend:
 
 - `express`
 - `mongoose`
 - `dotenv`
-- `firebase-admin`
-- `websocket` (or `mongodb-change-streams` for real-time updates)
+- `mongodb-change-streams` (for real-time updates)
 
 ### Development Tools:
 
@@ -108,6 +108,7 @@ npm run dev
   - React Beautiful DnD (or similar library for drag-and-drop functionality)
   - Firebase Authentication
   - Axios (for HTTP requests)
+  - Framer motion`
 
 - **Backend**:
 
@@ -125,5 +126,3 @@ npm run dev
 - **Deployment**:
   - Vercel (for frontend)
   - Heroku (for backend)
-
----

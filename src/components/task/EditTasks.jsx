@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 
@@ -33,7 +34,7 @@ function EditTasks() {
 
     try {
       const res = await api.put(`/tasks/${id}`, updatedTask);
-
+      toast.success("Task updated successfully!");
       // Redirect or show a success message
       navigate("/"); // Assuming you want to navigate back to the tasks page
     } catch (error) {

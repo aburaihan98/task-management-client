@@ -5,6 +5,7 @@ import Main from "../layouts/Main";
 import Login from "../pages/Authentication/Login/Login";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -13,18 +14,31 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
-        element: <Home />,
+        path: "/",
+        element: (
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/add-tasks",
-        element: <AddTasks />,
+        element: (
+          <PrivateRoute>
+            <AddTasks />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/edit-tasks",
-        element: <EditTasks />,
+        element: (
+          <PrivateRoute>
+            <EditTasks />
+          </PrivateRoute>
+        ),
       },
       {
+        index: true,
         path: "/login",
         element: <Login />,
       },
