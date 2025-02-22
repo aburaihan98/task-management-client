@@ -109,6 +109,13 @@ export default function TaskManager() {
       const res = await api.put(`/tasks/${movedTask._id}`, {
         category: sourceCategory,
       });
+
+      Swal.fire({
+        icon: "success",
+        title: "Task has been successfully reordered in the same category.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } else {
       // Move to another category
       const sourceTasks = Array.from(tasks[sourceCategory]);
@@ -127,7 +134,12 @@ export default function TaskManager() {
         category: destCategory,
       });
 
-      console.log(res?.data);
+      Swal.fire({
+        icon: "success",
+        title: `Task has been successfully moved to "${destCategory}".`,
+        timer: 2000,
+        showConfirmButton: false,
+      });
     }
   };
 
@@ -158,7 +170,7 @@ export default function TaskManager() {
                     {...provided.droppableProps}
                     className="bg-gray-100 p-4 rounded-lg shadow-md min-h-[200px]"
                   >
-                    <h2 className="text-xl font-semibold mb-3 md:mb-6">
+                    <h2 className="text-2xl text-center font-bold mb-3 md:mb-6">
                       {category}
                     </h2>
                     {tasks[category].map((task, index) => (
