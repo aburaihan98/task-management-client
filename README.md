@@ -1,128 +1,86 @@
-# Task Management Application
+# Task Management
 
 ## Short Description
 
-This is a Task Management Application that allows users to manage tasks by adding, editing, deleting, and organizing them into categories like **To-Do**, **In Progress**, and **Done**. The application features a drag-and-drop interface and provides real-time synchronization using **WebSockets** or **MongoDB Change Streams**. It's built with **React** for the frontend and **Express.js** for the backend, with **MongoDB** for data persistence.
+Task Management Client is a web application built with React to manage tasks efficiently. The app supports features like task categorization, drag-and-drop task management, and smooth animations. It integrates with Firebase for user authentication and backend services, while utilizing various front-end libraries like Tailwind CSS, Framer Motion, and SweetAlert2 for enhanced user experience.
 
 ---
 
 ## Live Links
 
-- **Frontend**: [Live Frontend Link](https://task-management-3e3b3.web.app/)
-- **Backend**: [Live Backend Link](https://yourbackendlink.heroku.app)
+- **App Link:** https://task-management-3e3b3.web.app/
 
 ---
 
 ## Dependencies
 
-### Frontend:
+### **Main Dependencies**
 
-- `react`
-- `react-dom`
-- `vite`
-- `react-router-dom`
-- `react-beautiful-dnd` (or any other drag-and-drop library)
-- `firebase`
-- `axios`
-- `framer-motion`
+- `@hello-pangea/dnd` - A drag-and-drop library for managing task boards.
+- `axios` - A promise-based HTTP client for making requests to APIs.
+- `firebase` - Firebase authentication and Firestore integration.
+- `framer-motion` - Animation library for React.
+- `react` - JavaScript library for building user interfaces.
+- `react-dom` - Provides DOM-specific methods for React.
+- `react-icons` - A popular library of icons for React.
+- `react-router-dom` - DOM bindings for React Router.
+- `sweetalert2` - A library for beautiful alerts and modals.
 
-### Backend:
+### **Development Dependencies**
 
-- `express`
-- `mongoose`
-- `dotenv`
-- `mongodb-change-streams` (for real-time updates)
-
-### Development Tools:
-
-- `nodemon` (for auto-reloading server during development)
-- `concurrently` (to run frontend and backend simultaneously in development)
+- `@types/react` - TypeScript type definitions for React.
+- `@types/react-dom` - TypeScript type definitions for React DOM.
+- `@vitejs/plugin-react` - Vite plugin for React support.
+- `autoprefixer` - A tool to automatically add vendor prefixes to CSS.
+- `daisyui` - A utility-first CSS component library for Tailwind.
+- `eslint` - A static code analysis tool for identifying and fixing problems in JavaScript.
+- `eslint-plugin-react` - ESLint plugin for React-specific linting rules.
+- `eslint-plugin-react-hooks` - Linting rules for React Hooks.
+- `eslint-plugin-react-refresh` - Plugin for React Fast Refresh.
+- `postcss` - A tool for transforming CSS with JavaScript plugins.
+- `tailwindcss` - A utility-first CSS framework.
+- `vite` - Next-generation, front-end tool for building React apps.
 
 ---
 
 ## Installation Steps
 
-### 1. Clone the repository
+1. **Clone the repository**
 
-```bash
-git clone https://github.com/aburaihan98/task-management-client
-cd task-management-client
-```
+   ```bash
+   git clone https://github.com/aburaihan98/task-management-client
+   ```
 
-### 2. Backend Setup
+2. **Navigate to the project directory**
 
-1. Navigate to the backend folder:
+   ```bash
+   cd task-management-client
+   ```
 
-```bash
-cd backend
-```
+3. **Install dependencies**
 
-2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm install
-```
+4. **Run the development server**
 
-3. Set up environment variables:
+   ```bash
+   npm run dev
+   ```
 
-   - **MongoDB** connection URL
-   - **Firebase credentials** (for Firebase Authentication)
-
-4. Start the backend server:
-
-```bash
-npm start
-```
-
-### 3. Frontend Setup
-
-1. Navigate to the frontend folder:
-
-```bash
-cd frontend
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Set up environment variables for Firebase in a `.env` file (e.g., `REACT_APP_FIREBASE_API_KEY`, etc.).
-
-4. Start the frontend development server:
-
-```bash
-npm run dev
-```
+5. **Open the app in your browser** at `http://localhost:5173/`.
 
 ---
 
 ## Technologies Used
 
-- **Frontend**:
-
-  - React
-  - Vite.js
-  - React Router
-  - React Beautiful DnD (or similar library for drag-and-drop functionality)
-  - Firebase Authentication
-  - Axios (for HTTP requests)
-  - Framer motion`
-
-- **Backend**:
-
-  - Express.js
-  - MongoDB (via Mongoose)
-  - Firebase Admin SDK (for user authentication)
-  - MongoDB Change Streams (for real-time updates)
-
-- **Development Tools**:
-
-  - Vite.js
-  - Nodemon
-  - Concurrently
-
-- **Deployment**:
-  - Vercel (for frontend)
-  - Heroku (for backend)
+- **React** for building the user interface.
+- **Vite** for fast development and build tools.
+- **Tailwind CSS** for styling the application with utility-first classes.
+- **Firebase** for handling authentication and data storage.
+- **Axios** for HTTP requests to communicate with backend services.
+- **SweetAlert2** for enhancing the UI with custom alerts.
+- **Framer Motion** for animations in the app.
+- **ESLint** for code linting and ensuring consistent code quality.
+- **DaisyUI** for pre-built components based on Tailwind CSS.

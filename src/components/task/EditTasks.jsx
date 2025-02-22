@@ -1,6 +1,6 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAxios from "../../hooks/useAxios";
 
 function EditTasks() {
@@ -34,11 +34,32 @@ function EditTasks() {
 
     try {
       const res = await api.put(`/tasks/${id}`, updatedTask);
-      toast.success("Task updated successfully!");
-      // Redirect or show a success message
-      navigate("/"); // Assuming you want to navigate back to the tasks page
+
+      if (res?.status === 200) {
+        Swal.fire({
+          title: "Success!",
+          text: "Task updated successfully!",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        });
+
+        navigate("/");
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to update the task. Please try again.",
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+      }
     } catch (error) {
       console.error("Error saving task:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while updating the task. Please try again later.",
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
     }
   };
 

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import toast from "react-hot-toast";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
 import ThemeToggle from "./ThemeToggle";
 
@@ -12,9 +12,20 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await logOut();
-      toast.success("Successfully logged out!");
+
+      Swal.fire({
+        title: "Success!",
+        text: "Successfully logged out!",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+      });
     } catch (error) {
-      toast.error("Logout failed. Please try again.");
+      Swal.fire({
+        title: "Error!",
+        text: "Logout failed. Please try again.",
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
     }
   };
 

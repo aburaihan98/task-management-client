@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
           try {
             await api.post("/user", userInfo);
           } catch (error) {
-            console.error("Error saving user:", error);
+            // console.error("Error saving user:", error);
           }
         };
         saveUser();
@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [api]);
 
   const authInfo = {
     user,

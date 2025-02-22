@@ -1,9 +1,12 @@
-import toast from "react-hot-toast";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAxios from "../../hooks/useAxios";
+import { AuthContext } from "../../providers/AuthProvider";
 
 function AddTasks() {
   const api = useAxios();
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -14,6 +17,7 @@ function AddTasks() {
     const category = e.target.category.value;
 
     const tasks = {
+      email: user?.email,
       title,
       description,
       category,
@@ -21,8 +25,24 @@ function AddTasks() {
     };
 
     const res = await api.post("/tasks", tasks);
-    toast.success("Task added successfully!");
-    navigate("/");
+
+    if (res?.data?.insertedId) {
+      Swal.fire({
+        title: "Success!",
+        text: "Task added successfully!",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+      });
+
+      navigate("/");
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to add task.",
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
+    }
   };
 
   return (

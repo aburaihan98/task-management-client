@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { useContext } from "react";
-import toast from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../../providers/AuthProvider";
 
 const Login = () => {
@@ -13,15 +13,27 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithGoogle();
-      toast.success("Successfully logged in with Google!");
+
+      Swal.fire({
+        title: "Success!",
+        text: "Successfully logged in with Google!",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+      });
+
       navigate(location.state ? location.state : "/");
     } catch (error) {
-      toast.error("Error: " + error.message);
+      Swal.fire({
+        title: "Error!",
+        text: "Error: " + error.message,
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
     }
   };
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center text-center px-6">
+    <div className="flex flex-col py-12 md:py-28 items-center justify-center text-center px-6">
       {/* Text Section */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -29,10 +41,10 @@ const Login = () => {
         transition={{ duration: 0.8 }}
         className="mb-8"
       >
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+        <h1 className="text-3xl md:text-4xl font-bold">
           Welcome to Task Manager
         </h1>
-        <p className="text-gray-600 mt-3 text-lg">
+        <p className=" mt-3 text-lg">
           Manage your tasks efficiently and stay productive.
         </p>
       </motion.div>

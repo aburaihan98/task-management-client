@@ -1,12 +1,12 @@
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { io } from "socket.io-client";
+import Swal from "sweetalert2";
 import useAxios from "../../hooks/useAxios";
-
-const socket = io("http://localhost:3000");
+import { AuthContext } from "./../../providers/AuthProvider";
 
 export default function TaskManager() {
+  const { user } = useContext(AuthContext);
   const api = useAxios();
   const [tasks, setTasks] = useState({
     "To-Do": [],
@@ -15,10 +15,80 @@ export default function TaskManager() {
   });
 
   // delete Tasks
-  const deleteTasks = async (id) => {
-    const res = await api.delete(`/tasks/${id}`);
-    console.log(res?.data);
+  const deleteTasks = async (id, category) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+    if (result.isConfirmed) {
+      const updatedTasks = { ...tasks };
+      updatedTasks[category] = updatedTasks[category].filter(
+        (task) => task._id !== id
+      );
+      setTasks(updatedTasks);
+
+      try {
+        const res = await api.delete(`/tasks/${id}`);
+        if (res.status !== 200) {
+          updatedTasks[category].push(
+            tasks[category].find((task) => task._id === id)
+          );
+          setTasks(updatedTasks);
+        }
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      } catch (error) {
+        updatedTasks[category].push(
+          tasks[category].find((task) => task._id === id)
+        );
+        setTasks(updatedTasks);
+
+        Swal.fire({
+          title: "Error!",
+          text: "There was an issue deleting the task.",
+          icon: "error",
+        });
+      }
+    }
   };
+
+  // task fetch
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await api.get(`/tasks?email=${user?.email}`);
+
+        const categorizedTasks = {
+          "To-Do": [],
+          "In Progress": [],
+          Done: [],
+        };
+
+        res.data.forEach((task) => {
+          const category = task.category ? task.category.trim() : "";
+          if (category in categorizedTasks) {
+            categorizedTasks[category].push(task);
+          } else {
+            console.log(`Unrecognized category: ${category}`);
+          }
+        });
+        setTasks(categorizedTasks);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
 
   // Drag & Drop Functionality
   const handleDragEnd = async (result) => {
@@ -61,73 +131,6 @@ export default function TaskManager() {
     }
   };
 
-  // task fetch
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const res = await api.get("tasks");
-        const categorizedTasks = {
-          "To-Do": [],
-          "In Progress": [],
-          Done: [],
-        };
-
-        res.data.forEach((task) => {
-          const category = task.category ? task.category.trim() : "";
-          if (category in categorizedTasks) {
-            categorizedTasks[category].push(task);
-          } else {
-            console.log(`Unrecognized category: ${category}`);
-          }
-        });
-        setTasks(categorizedTasks);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      }
-    };
-
-    fetchTasks();
-
-    // Listen for Real-time Updates
-    // add
-    socket.on("taskAdded", (newTask) => {
-      setTasks((prev) => ({
-        ...prev,
-        [newTask.category]: [...prev[newTask.category], newTask],
-      }));
-      console.log(newTask);
-    });
-
-    // delete
-    socket.on("taskDeleted", (id) => {
-      setTasks((prev) => {
-        const updatedTasks = {};
-        Object.keys(prev).forEach((category) => {
-          updatedTasks[category] = prev[category].filter(
-            (task) => task._id !== id
-          );
-        });
-        return updatedTasks;
-      });
-    });
-
-    // update
-    socket.on("taskUpdated", (updatedFields, documentKey) => {
-      setTasks((prev) => {
-        const updatedTasks = {};
-        Object.keys(prev).forEach((category) => {
-          updatedTasks[category] = prev[category].map((task) => {
-            return task._id === documentKey?._id
-              ? { ...task, ...updatedFields }
-              : task;
-          });
-        });
-        setTasks(updatedTasks);
-        return updatedTasks;
-      });
-    });
-  }, []);
-
   const getTaskColor = (dueDate) => {
     if (!dueDate) return "bg-white";
 
@@ -145,7 +148,7 @@ export default function TaskManager() {
 
   return (
     <>
-      <div className="w-11/12 mx-auto py-6 md:py-12">
+      <div className="w-11/12 mx-auto min-h-screen py-6 md:py-12">
         <DragDropContext onDragEnd={handleDragEnd}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             {Object.keys(tasks).map((category) => (
@@ -177,7 +180,7 @@ export default function TaskManager() {
                             <h3 className="text-lg font-bold mb-2 ">
                               {task.title}
                             </h3>
-                            <p className="font-medium mb-2  text-gray-600">
+                            <p className="font-medium mb-2">
                               {task.description}
                             </p>
                             <p className="text-sm mb-1 text-gray-400">

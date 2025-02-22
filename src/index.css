@@ -1,11 +1,11 @@
 body.light-mode {
   background-color: #ffffff;
-  color: #1a103d;
+  /* color: #1a103d; */
 }
 
 body.dark-mode {
   background-color: #1a103d;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 @tailwind base;
