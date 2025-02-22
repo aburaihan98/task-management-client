@@ -30,7 +30,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-600 py-4">
+    <nav className="bg-blue-500 py-4">
       <div className="w-11/12 mx-auto flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="text-white text-xl font-semibold">
@@ -47,12 +47,19 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-6 text-white font-semibold">
-          <NavLink to="/" className="hover:border-b-2 border-white px-4 py-2">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "border-b-2 border-yellow-500" : ""
+            }
+          >
             Home
           </NavLink>
           <NavLink
             to="/add-tasks"
-            className="hover:border-b-2 border-white px-4 py-2"
+            className={({ isActive }) =>
+              isActive ? "border-b-2 border-yellow-500" : ""
+            }
           >
             Add Tasks
           </NavLink>

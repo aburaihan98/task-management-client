@@ -133,7 +133,6 @@ export default function TaskManager() {
 
   const getTaskColor = (dueDate) => {
     if (!dueDate) return "bg-white";
-
     const now = new Date();
     const taskDueDate = new Date(dueDate);
 
@@ -174,14 +173,14 @@ export default function TaskManager() {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             className={`mb-3 p-3 rounded-lg shadow-md border ${getTaskColor(
-                              task.dueDate
+                              task?.timestamp
                             )}`}
                           >
                             <h3 className="text-lg font-bold mb-2 ">
-                              {task.title}
+                              {task?.title}
                             </h3>
                             <p className="font-medium mb-2">
-                              {task.description}
+                              {task?.description}
                             </p>
                             <p className="text-sm mb-1 text-gray-400">
                               Created:{" "}
